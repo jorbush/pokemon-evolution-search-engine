@@ -15,5 +15,9 @@ ENV IMAGE_INFERENCE_API=http://i2v-neural:8080 \
     ENABLE_MODULES=img2vec-neural \
     CLUSTER_HOSTNAME=node1
 
+# Agrega la red personalizada
+ARG NETWORK_NAME=mynetwork
+RUN echo "network: $NETWORK_NAME" >> /etc/weaviate/docker-flags.env
+
 # Comando de inicio del contenedor
 CMD ["--host", "0.0.0.0", "--port", "8080", "--scheme", "http"]
