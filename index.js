@@ -5,7 +5,7 @@ import { readFileSync, readdirSync, writeFileSync} from "fs"
 // Create a schema that contains an image property.
 async function createSchema () {
     const schemaConfig = {
-        'class': 'Meme',
+        'class': 'Pokemon',
         'vectorizer': "img2vec-neural",
         'vectorIndexType': 'hnsw',
         'moduleConfig': {
@@ -37,7 +37,7 @@ async function deleteSchema () {
 
     await client.schema
         .classDeleter()
-        .withClassName("Meme")
+        .withClassName("Pokemon")
         .do();
 
 }
@@ -49,16 +49,16 @@ will automatically use the neural network in the background
 to vectorize it and update the embedding.
 */
 async function trainLocalImage () {
-    const img = readFileSync('./img/buzz-ai-ml-meme.png');
+    const img = readFileSync('./img/charizard.png');
 
     const b64 = Buffer.from(img).toString('base64');
 
     const object = await client.data
         .creator()
-        .withClassName('Meme')
+        .withClassName('Pokemon')
         .withProperties({
             image: b64,
-            text: 'buzz ai ml meme'
+            text: 'charizard'
         })
         .do();
 
@@ -72,10 +72,10 @@ async function trainAllLocalImages () {
         const b64 = Buffer.from(readFileSync(`./img/${img}`)).toString('base64')
         await client.data
         .creator()
-        .withClassName('Meme')
+        .withClassName('Pokemon')
         .withProperties({
             image: b64,
-            text: 'buzz ai ml meme'
+            text: img.split('.')[0].split('_').join(' ')
         })
         .do();
     }))
@@ -94,14 +94,14 @@ async function test () {
     const test = Buffer.from( readFileSync('./test.png') ).toString('base64');
 
     const resImage = await client.graphql.get()
-        .withClassName('Meme')
+        .withClassName('Pokemon')
         .withFields(['image'])
         .withNearImage({ image: test })
         .withLimit(1)
         .do();
 
     // Write result to filesystem
-    const result = resImage.data.Get.Meme[0].image;
+    const result = resImage.data.Get.Pokemon[0].image;
     writeFileSync('./result.jpg', result, 'base64');
 }
 

@@ -1,6 +1,6 @@
-# Pokemon Evolutions Search Engine
+# Pokemon Evolution Search Engine
 
-By passing a pokemon this program returns its evolution to you
+By passing a pokemon this program returns its evolution to you.
 
 ## Run Docker
 
